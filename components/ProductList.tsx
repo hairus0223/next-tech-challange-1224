@@ -14,6 +14,7 @@ export default function ProductList() {
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,6 +22,7 @@ export default function ProductList() {
   // Fetch products and categories on mount
   useEffect(() => {
     const loadProductsAndCategories = async () => {
+      setLoading(true);
       try {
         const productsData = await fetchProducts();
         const categoriesData = await fetchCategories();
@@ -30,6 +32,8 @@ export default function ProductList() {
         setCategories(categoriesData);
       } catch (error) {
         console.error("Error loading products or categories:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -93,21 +97,32 @@ export default function ProductList() {
     router.push(`/?filter=${filter}&sort=${sort}&category=${category}`);
   };
 
+  const handleClearFilters = () => {
+    setFilter("");
+    setSort("asc");
+    setSelectedCategory("");
+    router.push("/");
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Product List</h1>
-      <FilterSort
-        onFilterChange={handleFilterChange}
-        onSortChange={handleSortChange}
-        onCategoryChange={handleCategoryChange}
-        filter={filter}
-        sort={sort}
-        categories={categories}
-        selectedCategory={selectedCategory}
-      />
-      <div className="mt-4">
-        {filteredProducts.length === 0 ? (
-          <p className="text-center text-xl font-semibold text-red-500">
+      <div className="flex flex-col gap-4">
+        <FilterSort
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
+          onCategoryChange={handleCategoryChange}
+          onClearFilters={handleClearFilters}
+          filter={filter}
+          sort={sort}
+          categories={categories}
+          selectedCategory={selectedCategory}
+        />
+        {loading ? (
+          <p className="text-center text-xl font-semibold text-gray-200">
+            Loading products...
+          </p>
+        ) : filteredProducts.length === 0 ? (
+          <p className="text-center text-xl font-semibold text-gray-200">
             No products found for the selected filter and category.
           </p>
         ) : (
