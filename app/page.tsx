@@ -1,5 +1,8 @@
 import ProductList from "@/components/ProductList";
+import React from "react";
 
-export default async function HomePage() {
+const HomePage = () => {
   return <ProductList />;
-}
+};
+
+export default HomePage;
