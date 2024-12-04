@@ -1,13 +1,16 @@
+import React from "react";
 import Carousel from "@/components/Carousel";
 import Price from "@/components/ui/Price";
 import { fetchProductById } from "@/services/ProductService";
+import { notFound } from "next/navigation";
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { id: string };
+export default async function ProductPage(props: {
+  params: Promise<{ id: string }>;
 }) {
+  const params = await props.params;
   const product = await fetchProductById(params.id);
+
+  if (!product) return notFound();
 
   return (
     <div className="mx-auto max-w-screen-2xl px-4">
