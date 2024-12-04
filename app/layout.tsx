@@ -12,7 +12,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
+      <body
+        className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white"
+        cz-shortcut-listen="true"
+      >
         <main>
           <header className="flex justify-center p-4 lg:px-6">
             <div className="flex-none text-sm font-medium uppercase">
