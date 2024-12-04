@@ -33,7 +33,6 @@ export function CarouselThumbnail({
       )}
     >
       {props.src && (
-        // eslint-disable-next-line jsx-a11y/alt-text
         <Image
           className={clsx(
             "relative h-full w-full object-contain",

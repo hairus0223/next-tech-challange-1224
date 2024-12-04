@@ -36,6 +36,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
             className="h-full w-full object-contain"
             fill
             sizes="(min-width: 1024px) 66vw, 100vw"
+            priority={true}
           />
         )}
 
